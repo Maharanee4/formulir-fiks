@@ -166,7 +166,7 @@
         <input type="number" id="kelembaban" min="0" max="100" style="width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: #0d47a1; color: white;" />
       </div>
 
-      <button type="button" id="btnProses">Proses</button>
+       <button type="button" id="btnProses">Proses</button>
     </form>
 
      <div class="output" id="output">
@@ -195,7 +195,6 @@
       document.getElementById("btnGambar").addEventListener("click", downloadChartImage);
     };
 
-    // Bobot baru hasil "model regresi" (disimulasikan)
     const bobotModel = {
       kasus3bulan: 0.62,
       genangan: 0.41,
@@ -226,7 +225,6 @@
       let HI = rumahPeriksa > 0 ? (rumahJentik / rumahPeriksa) * 100 : 0;
       let ABJ = 100 - HI;
 
-      // Prediksi berbasis bobot regresi + faktor iklim
       let basePrediksi = (
         (kasus3bulan * bobotModel.kasus3bulan) +
         (genangan * bobotModel.genangan) +
@@ -240,11 +238,8 @@
         (kelembaban * bobotModel.kelembaban)
       );
 
-      // Tren musiman: fluktuasi naik di musim hujan, turun di musim kemarau
       const faktorMusiman = [1.1, 1.05, 0.95, 0.9, 1.2, 1.15];
-
       let prediksi = bulan.map((_, i) => Math.max(0, Math.round(basePrediksi * faktorMusiman[i])));
-
       const ciBawah = prediksi.map(p => Math.max(0, p - 5));
       const ciAtas = prediksi.map(p => p + 5);
 
@@ -283,9 +278,7 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            title: { display: true, text: 'Prediksi Kasus DBD Selama 6 Bulan' }
-          },
+          plugins: { title: { display: true, text: 'Prediksi Kasus DBD Selama 6 Bulan' } },
           scales: {
             y: { title: { display: true, text: 'Jumlah Kasus' } },
             x: { title: { display: true, text: 'Bulan' } }
@@ -296,10 +289,48 @@
       window.prediksiData = { bulan, prediksi, ciBawah, ciAtas, skor, zona };
     }
 
-    // fungsi download PDF, Excel, Gambar tetap
-    function downloadPDF() { /* ... tetap ... */ }
-    function downloadExcel() { /* ... tetap ... */ }
-    function downloadChartImage() { /* ... tetap ... */ }
+    // ✅ fungsi download sudah lengkap
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("Laporan Prediksi Kasus DBD", 14, 20);
+      doc.setFontSize(12);
+      doc.text(`Skor Risiko: ${window.prediksiData.skor}`, 14, 30);
+      doc.text(`Zona: ${window.prediksiData.zona}`, 14, 38);
+
+      const body = window.prediksiData.bulan.map((b, i) => [
+        b,
+        window.prediksiData.prediksi[i],
+        window.prediksiData.ciBawah[i],
+        window.prediksiData.ciAtas[i]
+      ]);
+      doc.autoTable({ head: [["Bulan", "Prediksi Kasus", "CI Bawah", "CI Atas"]], body: body, startY: 50 });
+      doc.save("Prediksi_DBD.pdf");
+    }
+
+    function downloadExcel() {
+      const ws_data = [["Bulan", "Prediksi Kasus", "CI Bawah", "CI Atas"]];
+      window.prediksiData.bulan.forEach((b, i) => {
+        ws_data.push([
+          b,
+          window.prediksiData.prediksi[i],
+          window.prediksiData.ciBawah[i],
+          window.prediksiData.ciAtas[i]
+        ]);
+      });
+      const ws = XLSX.utils.aoa_to_sheet(ws_data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Prediksi DBD");
+      XLSX.writeFile(wb, "Prediksi_DBD.xlsx");
+    }
+
+    function downloadChartImage() {
+      const link = document.createElement("a");
+      link.href = document.getElementById("chartPrediksi").toDataURL("image/png");
+      link.download = "Grafik_Prediksi_DBD.png";
+      link.click();
+    }
   </script>
 </body>
 </html>
