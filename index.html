@@ -36,17 +36,14 @@
 
     <h1>Formulir Prediksi Kasus DBD 6 Bulan ke Depan</h1>
     <form id="dbdForm">
-
-      <!-- input lain tetap -->
-    
-    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-  <i class="fa-solid fa-hospital" style="color: #0d47a1;"></i>
-  <label for="puskesmas">Nama Puskesmas:</label>
-</div>
-
-<div>
-  <input type="text" id="puskesmas" style="width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: #0d47a1; color: white;" />
-</div>
+      <!-- Input nama puskesmas -->
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        <i class="fa-solid fa-hospital" style="color: #0d47a1;"></i>
+        <label for="puskesmas">Nama Puskesmas:</label>
+      </div>
+      <div>
+        <input type="text" id="puskesmas" placeholder="Masukkan nama puskesmas" />
+      </div>
 
     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
   <i class="fa-regular fa-address-book" style="color: #0d47a1;"></i>
@@ -169,7 +166,7 @@
        <button type="button" id="btnProses">Proses</button>
     </form>
 
-     <div class="output" id="output">
+    <div class="output" id="output">
       <h1 style="color: #000;">Hasil Prediksi</h1>
       <h2 id="namaPuskesmas" style="color: #005f30;"></h2>
       <div id="estimasiKasus"></div>
@@ -196,20 +193,15 @@
     };
 
     const bobotModel = {
-      kasus3bulan: 0.62,
-      genangan: 0.41,
-      demam: 0.28,
-      psn: -0.35,
-      edukasi: -0.25,
-      ABJ: -0.22,
-      psnSerentak: -0.15,
-      curahHujan: 0.12,
-      suhu: 0.08,
-      kelembaban: 0.15
+      kasus3bulan: 0.62, genangan: 0.41, demam: 0.28, psn: -0.35,
+      edukasi: -0.25, ABJ: -0.22, psnSerentak: -0.15,
+      curahHujan: 0.12, suhu: 0.08, kelembaban: 0.15
     };
 
     function prosesPrediksi() {
+      const namaPuskesmas = document.getElementById("puskesmas").value || "Belum diisi";
       const bulan = ["Bulan 1", "Bulan 2", "Bulan 3", "Bulan 4", "Bulan 5", "Bulan 6"];
+      // ambil input lain ...
       const kasus3bulan = Number(document.getElementById("kasus3bulan").value);
       const genangan = Number(document.getElementById("genangan").value);
       const demam = Number(document.getElementById("demam").value);
@@ -250,6 +242,8 @@
       document.getElementById('output').style.display = 'block';
       document.querySelector('.download-buttons').style.display = 'flex';
 
+      document.getElementById("namaPuskesmas").innerText = "Puskesmas: " + namaPuskesmas;
+
       const estimasiTotal = prediksi.reduce((a, b) => a + b, 0);
       let tabelEstimasi = "<table><thead><tr><th>Bulan</th><th>Prediksi Kasus</th></tr></thead><tbody>";
       prediksi.forEach((val, idx) => {
@@ -278,7 +272,7 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: { title: { display: true, text: 'Prediksi Kasus DBD Selama 6 Bulan' } },
+          plugins: { title: { display: true, text: 'Prediksi Kasus DBD - ' + namaPuskesmas } },
           scales: {
             y: { title: { display: true, text: 'Jumlah Kasus' } },
             x: { title: { display: true, text: 'Bulan' } }
@@ -286,18 +280,18 @@
         }
       });
 
-      window.prediksiData = { bulan, prediksi, ciBawah, ciAtas, skor, zona };
+      window.prediksiData = { namaPuskesmas, bulan, prediksi, ciBawah, ciAtas, skor, zona };
     }
 
-    // ✅ fungsi download sudah lengkap
     function downloadPDF() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.setFontSize(16);
       doc.text("Laporan Prediksi Kasus DBD", 14, 20);
       doc.setFontSize(12);
-      doc.text(`Skor Risiko: ${window.prediksiData.skor}`, 14, 30);
-      doc.text(`Zona: ${window.prediksiData.zona}`, 14, 38);
+      doc.text(`Puskesmas: ${window.prediksiData.namaPuskesmas}`, 14, 28);
+      doc.text(`Skor Risiko: ${window.prediksiData.skor}`, 14, 36);
+      doc.text(`Zona: ${window.prediksiData.zona}`, 14, 44);
 
       const body = window.prediksiData.bulan.map((b, i) => [
         b,
@@ -305,30 +299,31 @@
         window.prediksiData.ciBawah[i],
         window.prediksiData.ciAtas[i]
       ]);
-      doc.autoTable({ head: [["Bulan", "Prediksi Kasus", "CI Bawah", "CI Atas"]], body: body, startY: 50 });
-      doc.save("Prediksi_DBD.pdf");
+      doc.autoTable({ head: [["Bulan", "Prediksi Kasus", "CI Bawah", "CI Atas"]], body: body, startY: 55 });
+      doc.save(`Prediksi_DBD_${window.prediksiData.namaPuskesmas}.pdf`);
     }
 
     function downloadExcel() {
-      const ws_data = [["Bulan", "Prediksi Kasus", "CI Bawah", "CI Atas"]];
+      const ws_data = [
+        ["Laporan Prediksi Kasus DBD"],
+        [`Puskesmas: ${window.prediksiData.namaPuskesmas}`],
+        [`Skor Risiko: ${window.prediksiData.skor}`, `Zona: ${window.prediksiData.zona}`],
+        [],
+        ["Bulan", "Prediksi Kasus", "CI Bawah", "CI Atas"]
+      ];
       window.prediksiData.bulan.forEach((b, i) => {
-        ws_data.push([
-          b,
-          window.prediksiData.prediksi[i],
-          window.prediksiData.ciBawah[i],
-          window.prediksiData.ciAtas[i]
-        ]);
+        ws_data.push([b, window.prediksiData.prediksi[i], window.prediksiData.ciBawah[i], window.prediksiData.ciAtas[i]]);
       });
       const ws = XLSX.utils.aoa_to_sheet(ws_data);
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Prediksi DBD");
-      XLSX.writeFile(wb, "Prediksi_DBD.xlsx");
+      XLSX.writeFile(wb, `Prediksi_DBD_${window.prediksiData.namaPuskesmas}.xlsx`);
     }
 
     function downloadChartImage() {
       const link = document.createElement("a");
       link.href = document.getElementById("chartPrediksi").toDataURL("image/png");
-      link.download = "Grafik_Prediksi_DBD.png";
+      link.download = `Grafik_Prediksi_DBD_${window.prediksiData.namaPuskesmas}.png`;
       link.click();
     }
   </script>
