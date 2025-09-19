@@ -39,7 +39,10 @@
       <!-- Input nama puskesmas -->
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
         <i class="fa-solid fa-hospital" style="color: #0d47a1;"></i>
-        <label for="puskesmas">Nama Puskesmas:</label>
+        <div style="display: flex; flex-direction: column;">
+          <label for="puskesmas">Nama Puskesmas:</label>
+          <small>Masukkan nama puskesmas tempat Anda bertugas.</small>
+        </div>
       </div>
       <div>
         <input type="text" id="puskesmas" placeholder="Masukkan nama puskesmas" />
@@ -47,7 +50,10 @@
 
     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
   <i class="fa-regular fa-address-book" style="color: #0d47a1;"></i>
-  <label for="penduduk">Jumlah Penduduk:</label>
+  <div style="display: flex; flex-direction: column;">
+    <label for="penduduk">Jumlah Penduduk:</label>
+    <small>Masukkan jumlah total penduduk di wilayah yang dinaungi puskesmas.</small>
+  </div>
 </div> 
 
 <div>
@@ -56,7 +62,10 @@
 
     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
   <i class="fa-solid fa-mosquito-net" style="color: #0d47a1;"></i>  
-  <label for="kasus3bulan">Kasus DBD 3 Bulan Terakhir:</label>
+  <div style="display: flex; flex-direction: column;">
+    <label for="kasus3bulan">Kasus DBD 3 Bulan Terakhir:</label>
+    <small>Masukkan jumlah kasus DBD yang tercatat dalam 3 bulan terakhir.</small>
+  </div>
 </div>
 
 <div>
@@ -65,7 +74,10 @@
 
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
       <i class="fa-solid fa-house-flood-water-circle-arrow-right" style="color: #0d47a1;"></i>  
-      <label for="genangan">Jumlah Titik Genangan Air (RT):</label>
+      <div style="display: flex; flex-direction: column;">
+        <label for="genangan">Jumlah Titik Genangan Air (RT):</label>
+        <small>Masukkan jumlah genangan air yang ditemukan per-rumah tangga</small>
+      </div>
 </div>
 
 <div>
@@ -74,7 +86,10 @@
 
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
       <i class="fa-brands fa-medrt" style="color: #0d47a1;"></i>  
-      <label for="cakupanPSN">Cakupan PSN (%):</label>
+      <div style="display: flex; flex-direction: column;">
+        <label for="cakupanPSN">Cakupan PSN (%):</label>
+        <small>Masukkan persentase cakupan Pemberantasan Sarang Nyamuk (PSN).</small>
+      </div>
 </div>
 
 <div>
@@ -83,7 +98,10 @@
 
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
       <i class="fa-solid fa-head-side-cough" style="color: #0d47a1;"></i>  
-      <label for="demam">Jumlah Kasus Demam Akut 1 Bulan Terakhir:</label>
+      <div style="display: flex; flex-direction: column;">
+        <label for="demam">Jumlah Kasus Demam Akut 1 Bulan Terakhir:</label>
+        <small>Masukkan jumlah kasus demam akut yang terjadi dalam 1 bulan terakhir.</small>
+      </div>
 </div>
 
 <div>
@@ -93,7 +111,10 @@
 <!-- Input Cakupan Edukasi Lingkungan -->
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
         <i class="fa-solid fa-school-circle-check" style="color: #0d47a1;"></i>  
-        <label for="edukasi">Cakupan Edukasi Lingkungan (%):</label>
+        <div style="display: flex; flex-direction: column;">
+          <label for="edukasi">Cakupan Edukasi Lingkungan (%):</label>
+          <small>Masukkan persentase edukasi lingkungan yang telah dilakukan.</small>
+        </div>
       </div>
       <div>
         <input type="number" id="edukasi" min="0" max="100" 
@@ -104,7 +125,10 @@
       <!-- Input Jumlah Rumah Diperiksa -->
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
         <i class="fa-solid fa-house" style="color: #0d47a1;"></i>
-        <label for="rumahPeriksa">Jumlah Rumah Diperiksa:</label>
+        <div style="display: flex; flex-direction: column;">
+          <label for="rumahPeriksa">Jumlah Rumah Diperiksa:</label>
+          <small>Masukkan jumlah rumah yang telah diperiksa petugas.</small>
+        </div>
       </div>
       <div>
         <input type="number" id="rumahPeriksa" 
@@ -115,7 +139,10 @@
       <!-- Input Jumlah Rumah Terdapat Jentik -->
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
         <i class="fa-solid fa-bug" style="color: #0d47a1;"></i>
-        <label for="rumahJentik">Jumlah Rumah dengan Jentik:</label>
+        <div style="display: flex; flex-direction: column;">
+          <label for="rumahJentik">Jumlah Rumah dengan Jentik:</label>
+          <small>Masukkan jumlah rumah yang ditemukan terdapat jentik nyamuk.</small>
+        </div>
       </div>
       <div>
         <input type="number" id="rumahJentik" 
@@ -126,7 +153,10 @@
       <!-- Input PSN Serentak -->
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
         <i class="fa-solid fa-people-group" style="color: #0d47a1;"></i>
-        <label for="psnSerentak">PSN Serentak?</label>
+        <div style="display: flex; flex-direction: column;">
+          <label for="psnSerentak">PSN Serentak?</label>
+          <small>Pilih apakah telah dilakukan PSN serentak di wilayah Anda.</small>
+        </div>
       </div>
       <div>
         <select id="psnSerentak" 
@@ -141,7 +171,10 @@
       <!-- Input faktor iklim -->
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
         <i class="fa-solid fa-cloud-rain" style="color: #0d47a1;"></i>
-        <label for="curahHujan">Curah Hujan (mm/bulan):</label>
+        <div style="display: flex; flex-direction: column;">
+          <label for="curahHujan">Curah Hujan (mm/bulan):</label>
+          <small>Masukkan rata-rata curah hujan per bulan (dalam mm).</small>
+        </div>
       </div>
       <div>
         <input type="number" id="curahHujan" style="width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: #0d47a1; color: white;" />
@@ -149,7 +182,10 @@
 
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
         <i class="fa-solid fa-temperature-three-quarters" style="color: #0d47a1;"></i>
-        <label for="suhu">Suhu Rata-rata (°C):</label>
+        <div style="display: flex; flex-direction: column;">
+          <label for="suhu">Suhu Rata-rata (°C):</label>
+          <small>Masukkan suhu rata-rata bulanan di wilayah Anda.</small>
+        </div>
       </div>
       <div>
         <input type="number" id="suhu" style="width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: #0d47a1; color: white;" />
@@ -157,7 +193,10 @@
 
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
         <i class="fa-solid fa-water" style="color: #0d47a1;"></i>
-        <label for="kelembaban">Kelembaban Udara (%):</label>
+        <div style="display: flex; flex-direction: column;">
+          <label for="kelembaban">Kelembaban Udara (%):</label>
+          <small>Masukkan kelembaban udara rata-rata bulanan (%).</small>
+        </div>
       </div>
       <div>
         <input type="number" id="kelembaban" min="0" max="100" style="width: 100%; padding: 10px; border-radius: 8px; border: none; background-color: #0d47a1; color: white;" />
